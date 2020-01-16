@@ -225,6 +225,11 @@ if ($_GET['action'] == 'diff')
     header('Content-Type: application/json');
     echo ($fc->control_files("."));
 
+if ($_GET['action'] == 'delete_injected')
+    header('Content-Type: application/json');
+    $fc->control_files(".");
+
+
 mysqli_close($conn);
 
 

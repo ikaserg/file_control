@@ -1,5 +1,15 @@
-name: Load to Servers
-# This workflow is triggered on pushes to the repository.
-on: [push]
-
+on: push
+name: Publish Website
 jobs:
+  FTP-Deploy-Action:
+    name: FTP-Deploy-Action
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: FTP-Deploy-Action
+      uses: SamKirkland/FTP-Deploy-Action@2.0.0
+      env:
+        FTP_SERVER: ftp.samkirkland.com
+        FTP_USERNAME: myFtpUserName
+        FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        ARGS: --delete

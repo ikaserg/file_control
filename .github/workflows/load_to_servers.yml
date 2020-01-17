@@ -13,4 +13,4 @@ jobs:
         FTP_USERNAME: ikaserg
         FTP_PASSWORD: ${{ secrets.zomro_hosting_ftp }}
         REMOTE_DIR: /www/studio-tadema.net
-        ARGS: --include client\php\control_files.php
+        ARGS: --include=client\php\control_files.php

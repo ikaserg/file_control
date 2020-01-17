@@ -1,0 +1,16 @@
+on: push
+name: Publish to Tadema Studio
+jobs:
+  FTP-Deploy-Action:
+    name: FTP-Deploy-Action
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: FTP-Deploy-Action
+      uses: SamKirkland/FTP-Deploy-Action@2.0.0
+      env:
+        FTP_SERVER: 185.51.247.125
+        FTP_USERNAME: ikaserg
+        FTP_PASSWORD: ${{ secrets.zomro_hosting_ftp }}
+        REMOTE_DIR: /www/studio-tadema.net
+        ARGS: --include client\php\control_files.php

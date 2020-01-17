@@ -204,6 +204,8 @@ function get_project_id($conn){
         return -1;
 }
 
+
+
 $servername = "localhost";
 $username = "file_control";
 $password = "xzqL|UFLv1a?GZk";
@@ -227,7 +229,9 @@ if ($_GET['action'] == 'diff')
 
 if ($_GET['action'] == 'delete_injected')
     header('Content-Type: application/json');
-    $fc->control_files(".");
+    $data = json_decode(file_get_contents('php://input'), true);
+    echo $data;
+    #$fc->control_files(".");
 
 
 mysqli_close($conn);

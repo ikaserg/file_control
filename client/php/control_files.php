@@ -223,16 +223,17 @@ if ($_GET['action'] == 'init_one_metr')
 if ($_GET['action'] == 'init_qwerty')
     $fc->init_project(".");
 
-if ($_GET['action'] == 'diff')
+if ($_GET['action'] == 'diff'){
     header('Content-Type: application/json');
     echo ($fc->control_files("."));
+}    
 
-if ($_GET['action'] == 'delete_injected')
-    header('Content-Type: application/json');
+if ($_GET['action'] == 'delete_injected'){
     $data = json_decode(file_get_contents('php://input'), true);
-    echo $data;
-    #$fc->control_files(".");
-
+    echo $data['number'];
+    $fc->control_files(".");
+}
+    
 
 mysqli_close($conn);
 

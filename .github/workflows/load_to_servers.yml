@@ -30,6 +30,7 @@ jobs:
         port: ${{ secrets.zomro_ssh_port }}
         source: "server/delete_injected.py"
         target: "/home/file_control"
+        strip_components: 1
 
 
      

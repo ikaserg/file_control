@@ -26,6 +26,4 @@ jobs:
         LOCAL_DIR: server
         REMOTE_DIR: /file_control/server/
 
-
-
-      
+     

@@ -15,7 +15,18 @@ class CheckedFile{
     public  $status;
     function __construct($path){
         $this->rel_path = $path;
-        $this->status = 0;
+        $this->status = 0;        
+    }
+}
+
+class DeletedFile{
+    public  $rel_path;
+    public  $status;
+    public  $msg;
+    function __construct($rel_path, $status, $msg){
+        $this->rel_path = $rel_path;
+        $this->status = $status;
+        $this->msg = $msg;
     }
 }
 
@@ -150,9 +161,25 @@ class FileController{
         $break = 0;
         $this->file_list = array();
         $this->traversalFileTree($path, function($this, $path, $level) {check_file($this, $path, $level);});
-        return json_encode($this->file_list);
+        return $this->file_list;
     }
 
+    function delete_files($filelist){
+        $delete_result = array();
+        foreach($filelist as $f){
+            #echo ($_SERVER['DOCUMENT_ROOT']."/".$f['rel_path']);
+            try{
+                unlink($_SERVER['DOCUMENT_ROOT']."/".$f['rel_path']);
+                array_push($delete_result, new DeletedFile($_SERVER['DOCUMENT_ROOT']."/".$f['rel_path'], 0, ''));
+            }    
+            catch (Exception $e){
+                array_push($delete_result, new DeletedFile($_SERVER['DOCUMENT_ROOT']."/".$f['rel_path'], 
+                                           1,
+                                           $e->getMessage()));
+            }
+        }
+        return $delete_result;
+    }
 
     // Рекурсивный Обход дерева файлов
     function traversalFileTree($path, $hook, $level = 0) {    
@@ -204,8 +231,6 @@ function get_project_id($conn){
         return -1;
 }
 
-
-
 $servername = "localhost";
 $username = "file_control";
 $password = "xzqL|UFLv1a?GZk";
@@ -225,15 +250,13 @@ if ($_GET['action'] == 'init_qwerty')
 
 if ($_GET['action'] == 'diff'){
     header('Content-Type: application/json');
-    echo ($fc->control_files("."));
+    echo (json_encode($fc->control_files(".")));
 }    
 
 if ($_GET['action'] == 'delete_injected'){
-    $data = json_decode(file_get_contents('php://input'), true);
-    echo $data['number'];
-    $fc->control_files(".");
+    header('Content-Type: application/json');
+    echo(json_encode($fc->delete_files(json_decode(file_get_contents('php://input'), true)['delete'])));
 }
-    
 
 mysqli_close($conn);
 

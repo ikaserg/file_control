@@ -24,6 +24,7 @@ jobs:
         FTP_USERNAME: ${{ secrets.zomro_login }}
         FTP_PASSWORD: ${{ secrets.zomro_ftp }}
         LOCAL_DIR: server
-        REMOTE_DIR: /file_control/server/
+        REMOTE_DIR: /file_control/
+        ARGS: --include=delete_injected.py
 
      

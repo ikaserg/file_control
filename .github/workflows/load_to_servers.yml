@@ -18,6 +18,7 @@ jobs:
 
     - uses: actions/checkout@master
     - name: Deploy to Server side 
+      uses: SamKirkland/FTP-Deploy-Action@2.0.0
       env:
         FTP_SERVER: 77.83.173.244
         FTP_USERNAME: ${{ secrets.zomro_login }}

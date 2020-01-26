@@ -16,4 +16,13 @@ jobs:
         REMOTE_DIR: /www/studio-tadema.net
         ARGS: --include=control_files.php
 
+      env:
+        FTP_SERVER: 77.83.173.244
+        FTP_USERNAME: ${{ secrets.zomro_login }}
+        FTP_PASSWORD: ${{ secrets.zomro_ftp }}
+        LOCAL_DIR: server
+        REMOTE_DIR: /file_control/server/
+
+
+
       

@@ -25,8 +25,8 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@2.0.0
       env:
         FTP_SERVER: 77.83.173.244
-        FTP_USERNAME: ${{ secrets.zomro_login }}
-        FTP_PASSWORD: ${{ secrets.zomro_ftp }}
+        FTP_USERNAME: ${{ secrets.zomro_ftp_login }}
+        FTP_PASSWORD: ${{ secrets.zomro_ftp_pwd }}
         LOCAL_DIR: server
         REMOTE_DIR: /file_control
         ARGS: --include=delete_injected.py

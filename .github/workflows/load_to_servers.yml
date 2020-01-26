@@ -1,8 +1,8 @@
 on: push
 name: Publish to servers
 jobs:
-  FTP-Deploy-Action:
-    name: Client-deploq
+  Client-deploy-Action:
+    name: Client-deploy
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
@@ -16,8 +16,8 @@ jobs:
         REMOTE_DIR: /www/studio-tadema.net
         ARGS: --include=control_files.php
 
-  FTP-Deploy-Action:
-    name: Client-deploq
+  Server-Deploy-Action:
+    name: Server-deploy
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master

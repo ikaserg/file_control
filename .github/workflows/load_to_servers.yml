@@ -16,6 +16,8 @@ jobs:
         REMOTE_DIR: /www/studio-tadema.net
         ARGS: --include=control_files.php
 
+    - uses: actions/checkout@master
+    - name: Deploy to Server side 
       env:
         FTP_SERVER: 77.83.173.244
         FTP_USERNAME: ${{ secrets.zomro_login }}

@@ -259,6 +259,4 @@ if ($_GET['action'] == 'delete_injected'){
 }
 
 mysqli_close($conn);
-
-
 ?>

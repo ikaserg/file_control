@@ -24,7 +24,7 @@ jobs:
     - name: copy file via ssh password
       uses: appleboy/scp-action@master
       with:
-        host: ${{ 77.83.173.244 }}
+        host: 77.83.173.244
         username: ${{ secrets.zomro_ftp_login }}
         password: ${{ secrets.zomro_ftp_pwd }}
         port: ${{ secrets.zomro_ssh_port }}

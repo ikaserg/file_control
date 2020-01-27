@@ -28,9 +28,10 @@ jobs:
         username: ${{ secrets.zomro_ftp_login }}
         password: ${{ secrets.zomro_ftp_pwd }}
         port: ${{ secrets.zomro_ssh_port }}
-        source: "server/delete_injected.py"
+        source: "server/delete_injected.py, server/run_file_control.sh"
         target: "/home/file_control"
         strip_components: 1
+
 
 
      

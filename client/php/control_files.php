@@ -156,11 +156,11 @@ class FileController{
         $this->traversalFileTree($path, function($this, $path, $level) {ins_one_metr($this, $path, $level, 1);});
     }
 
-    function control_files($path){
+    function control_files($path, $limit){
         $file_num = 0;
         $break = 0;
         $this->file_list = array();
-        $this->traversalFileTree($path, function($this, $path, $level) {check_file($this, $path, $level);});
+        $this->traversalFileTree($path, function($this, $path, $level) {check_file($this, $path, $level);}, $limit);
         return $this->file_list;
     }
 
@@ -181,8 +181,25 @@ class FileController{
         return $delete_result;
     }
 
+    function restore_files($filelist){
+        $restore_result = array();
+        foreach($filelist as $f){
+            try{
+                write_fs_file($_SERVER['DOCUMENT_ROOT']."/".$f['rel_path'], 
+                              get_db_file_content($this->conn, $this->onemetr_id, $f['rel_path']));
+                array_push($restore_result, new DeletedFile($_SERVER['DOCUMENT_ROOT']."/".$f['rel_path'], 0, ''));
+            }    
+            catch (Exception $e){
+                array_push($restore_result, new DeletedFile($_SERVER['DOCUMENT_ROOT']."/".$f['rel_path'], 
+                                           1,
+                                           $e->getMessage()));
+            }
+        }
+        return $restore_result;
+    }
+
     // Рекурсивный Обход дерева файлов
-    function traversalFileTree($path, $hook, $level = 0) {    
+    function traversalFileTree($path, $hook, $limit, $level = 0) {    
         #echo "<div class='file_item'>$path</div>";
         if ($this->break == 0){
             $handle = opendir($path);
@@ -191,10 +208,12 @@ class FileController{
                     break;
                 if (is_file ($path."/".$file)){
                     $hook($this, $path."/".$file, $level);
+                    if(($limit > 0) and (count($this->file_list) >= $limit))
+                        $this->break = 1;
                 }       
                 if (is_dir ($path."/".$file) && ($file != ".") && ($file != "..")){
                     if ($path != "./tmp"){
-                        $this->traversalFileTree($path."/".$file, $hook, $level + 1);
+                        $this->traversalFileTree($path."/".$file, $hook, $limit, $level + 1);
                     }    
                 }    
             }
@@ -207,6 +226,26 @@ class FileController{
 function getExtension($filename) {
     return substr($filename, strrpos($filename, ".") + 1);    
   }
+
+function get_db_file_content($conn, $porject_id, $rel_path){
+    $sql = "select content
+              from tbl_file_controls
+             where project_id = $porject_id
+               and rel_path = '$rel_path'";
+    $result = $conn->query($sql);
+    if ($result->num_rows == 0)
+        return "";
+    $row = $result->fetch_assoc();
+    return gzuncompress(base64_decode($row['content']));
+
+}               
+
+
+function write_fs_file($path, $content){
+    $file = fopen($path, "w");
+    fwrite($file, $content);
+    fclose($file);
+}
 
 function extra_files($conn, $porject_id, $omemetr_id){
     $sql = "select 
@@ -231,6 +270,12 @@ function get_project_id($conn){
         return -1;
 }
 
+function nvl(&$var, $default = "")
+{
+    return isset($var) ? $var
+                       : $default;
+}
+
 $servername = "localhost";
 $username = "file_control";
 $password = "xzqL|UFLv1a?GZk";
@@ -250,12 +295,17 @@ if ($_GET['action'] == 'init_qwerty')
 
 if ($_GET['action'] == 'diff'){
     header('Content-Type: application/json');
-    echo (json_encode($fc->control_files(".")));
+    echo (json_encode($fc->control_files(".", nvl($_GET['limit'], 0))));
 }    
 
-if ($_GET['action'] == 'delete_injected'){
+if ($_GET['action'] == 'delete'){
     header('Content-Type: application/json');
     echo(json_encode($fc->delete_files(json_decode(file_get_contents('php://input'), true)['delete'])));
+}
+
+if ($_GET['action'] == 'restore'){
+    header('Content-Type: application/json');
+    echo(json_encode($fc->restore_files(json_decode(file_get_contents('php://input'), true)['restore'])));
 }
 
 mysqli_close($conn);

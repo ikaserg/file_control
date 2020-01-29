@@ -26,7 +26,7 @@ def clear_site(fc_url):
         if (cnt == 0):
             break
 clear_site("http://studio-tadema.net/control_files.php")        
-clear_site("https://rzn438043.ru/control_files.php")        
+clear_site("http://rzn438043.ru/control_files.php")        
 
 #    for files_chunk in np.array_split(np.array(file_list), chunk_size):
 #        r = requests.post("http://studio-tadema.net/control_files.php?action=delete_injected", \

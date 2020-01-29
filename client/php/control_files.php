@@ -136,6 +136,7 @@ class FileController{
         if ($result->num_rows != 0) {
             $row = $result->fetch_assoc();
             $this->project_id = $row["project_id"];
+            $this->onemetr_id = $row["project_id"];
         }
         else
             $this->project_id = -1;

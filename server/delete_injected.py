@@ -9,7 +9,7 @@ def clear_site(fc_url):
     cnt = 0
     while (True):
         file_list = json.loads(urllib.request.urlopen(get_diff_url).read())
-        print(fc_url + "Diff size " + len(file_list))
+        print(fc_url + "Diff size " + str(len(file_list)))
         delete_list = [{'rel_path':f['rel_path']} for f in file_list if f['status'] == 3]
         if (len(delete_list) > 0):
             r = requests.post(fc_url + "?action=delete", \

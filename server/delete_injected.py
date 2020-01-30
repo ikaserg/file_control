@@ -22,11 +22,11 @@ def clear_site(fc_url):
                             json={'restore': restore_list})
             cnt += len(json.loads(r.text)) 
             print(r.text)
-            print(fc_url + ": restore " + str(cnt))
+            print(fc_url + ": restored " + str(cnt))
 
         if (cnt == 0):
             break
-#clear_site("http://studio-tadema.net/control_files.php")        
+clear_site("http://studio-tadema.net/control_files.php")        
 clear_site("http://rzn438043.ru/control_files.php")        
 
 #    for files_chunk in np.array_split(np.array(file_list), chunk_size):

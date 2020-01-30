@@ -19,7 +19,7 @@ def clear_site(fc_url):
         restore_list = [{'rel_path':f['rel_path']} for f in file_list if (f['status'] == 2) and (f['rel_path'] != './control_files.php')]
         if (len(restore_list) > 0):
             r = requests.post(fc_url + "?action=restore", \
-                            json={'restored': restore_list})
+                            json={'restore': restore_list})
             cnt += len(json.loads(r.text)) 
             print(r.text)
             print(fc_url + ": restore " + str(cnt))

@@ -19,13 +19,13 @@ def clear_site(fc_url):
         restore_list = [{'rel_path':f['rel_path']} for f in file_list if (f['status'] == 2) and (f['rel_path'] != './control_files.php')]
         if (len(restore_list) > 0):
             r = requests.post(fc_url + "?action=restore", \
-                            json={': restored': restore_list})
+                            json={'restored': restore_list})
             cnt += len(json.loads(r.text)) 
-            print(fc_url + "restore " + str(cnt))
+            print(fc_url + ": restore " + str(cnt))
 
         if (cnt == 0):
             break
-clear_site("http://studio-tadema.net/control_files.php")        
+#clear_site("http://studio-tadema.net/control_files.php")        
 clear_site("http://rzn438043.ru/control_files.php")        
 
 #    for files_chunk in np.array_split(np.array(file_list), chunk_size):

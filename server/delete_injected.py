@@ -6,8 +6,8 @@ import numpy as np
 def clear_site(fc_url):
     chunk_size = 25
     get_diff_url = fc_url + "?action=diff&limit="+str(chunk_size)
-    cnt = 0
     while (True):
+        cnt = 0
         file_list = json.loads(urllib.request.urlopen(get_diff_url).read())
         print(fc_url + ": diff size " + str(len(file_list)))
         delete_list = [{'rel_path':f['rel_path']} for f in file_list if f['status'] == 3]

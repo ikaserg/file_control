@@ -21,6 +21,7 @@ def clear_site(fc_url):
             r = requests.post(fc_url + "?action=restore", \
                             json={'restored': restore_list})
             cnt += len(json.loads(r.text)) 
+            print(r.text)
             print(fc_url + ": restore " + str(cnt))
 
         if (cnt == 0):

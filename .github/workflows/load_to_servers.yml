@@ -24,6 +24,17 @@ jobs:
         FTP_USERNAME: ikaserg
         FTP_PASSWORD: ${{ secrets.zomro_hosting_ftp }}
         LOCAL_DIR: client/php
+        REMOTE_DIR: /www/7111953.ru
+        ARGS: --include=control_files.php
+
+    - uses: actions/checkout@master
+    - name: Deploy to Tadema Studio 
+      uses: SamKirkland/FTP-Deploy-Action@2.0.0
+      env:
+        FTP_SERVER: 185.51.247.125
+        FTP_USERNAME: ikaserg
+        FTP_PASSWORD: ${{ secrets.zomro_hosting_ftp }}
+        LOCAL_DIR: client/php
         REMOTE_DIR: /www/rzn438043.ru
         ARGS: --include=control_files.php
 

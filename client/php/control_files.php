@@ -214,7 +214,7 @@ class FileController{
                 }       
                 if (($level < $max_level) && is_dir ($path."/".$file) && ($file != ".") && ($file != "..")){
                     if ($path != "./tmp"){
-                        $this->traversalFileTree($path."/".$file, $hook, $limit, $level + 1);
+                        $this->traversalFileTree($path."/".$file, $hook, $limit, $level + 1, $max_level);
                     }    
                 }    
             }

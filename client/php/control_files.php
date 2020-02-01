@@ -157,11 +157,11 @@ class FileController{
         $this->traversalFileTree($path, function($this, $path, $level) {ins_one_metr($this, $path, $level, 1);});
     }
 
-    function control_files($path, $limit){
+    function control_files($path, $limit, $depth){
         $file_num = 0;
         $break = 0;
         $this->file_list = array();
-        $this->traversalFileTree($path, function($this, $path, $level) {check_file($this, $path, $level);}, $limit);
+        $this->traversalFileTree($path, function($this, $path, $level) {check_file($this, $path, $level);}, $limit, 0, $depth);
         return $this->file_list;
     }
 
@@ -200,7 +200,7 @@ class FileController{
     }
 
     // Рекурсивный Обход дерева файлов
-    function traversalFileTree($path, $hook, $limit, $level = 0) {    
+    function traversalFileTree($path, $hook, $limit, $level = 0, $max_level = 0) {    
         #echo "<div class='file_item'>$path</div>";
         if ($this->break == 0){
             $handle = opendir($path);
@@ -212,7 +212,7 @@ class FileController{
                     if(($limit > 0) and (count($this->file_list) >= $limit))
                         $this->break = 1;
                 }       
-                if (is_dir ($path."/".$file) && ($file != ".") && ($file != "..")){
+                if (($level < $max_level) && is_dir ($path."/".$file) && ($file != ".") && ($file != "..")){
                     if ($path != "./tmp"){
                         $this->traversalFileTree($path."/".$file, $hook, $limit, $level + 1);
                     }    
@@ -296,7 +296,7 @@ if ($_GET['action'] == 'init_qwerty')
 
 if ($_GET['action'] == 'diff'){
     header('Content-Type: application/json');
-    echo (json_encode($fc->control_files(".", nvl($_GET['limit'], 0))));
+    echo (json_encode($fc->control_files(".", nvl($_GET['limit'], 0), nvl($_GET['depth'], 0))));
 }    
 
 if ($_GET['action'] == 'delete'){

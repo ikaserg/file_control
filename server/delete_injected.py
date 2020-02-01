@@ -3,9 +3,9 @@ import urllib
 import json
 import numpy as np
 
-def clear_site(fc_url):
+def clear_site(fc_url, depth):
     chunk_size = 25
-    get_diff_url = fc_url + "?action=diff&limit="+str(chunk_size)
+    get_diff_url = fc_url + "?action=diff&limit="+str(chunk_size)+"&depth="+str(depth)
     while (True):
         cnt = 0
         file_list = json.loads(urllib.request.urlopen(get_diff_url).read())
@@ -26,9 +26,12 @@ def clear_site(fc_url):
 
         if (cnt == 0):
             break
-clear_site("http://studio-tadema.net/control_files.php")        
-clear_site("http://rzn438043.ru/control_files.php")        
-clear_site("http://7111953.ru/control_files.php")        
+clear_site("http://studio-tadema.net/control_files.php", 0)        
+clear_site("http://studio-tadema.net/control_files.php", 10000)        
+clear_site("http://rzn438043.ru/control_files.php", 0)        
+clear_site("http://rzn438043.ru/control_files.php", 1000)        
+clear_site("http://7111953.ru/control_files.php", 0)        
+clear_site("http://7111953.ru/control_files.php", 1000)        
 
 #    for files_chunk in np.array_split(np.array(file_list), chunk_size):
 #        r = requests.post("http://studio-tadema.net/control_files.php?action=delete_injected", \

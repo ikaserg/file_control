@@ -28,10 +28,10 @@ def clear_site(fc_url, depth):
             break
 clear_site("https://studio-tadema.net/control_files.php", 0)        
 clear_site("https://studio-tadema.net/control_files.php", 10000)        
-clear_site("https://rzn438043.ru/control_files.php", 0)        
-clear_site("https://rzn438043.ru/control_files.php", 1000)        
 clear_site("https://7111953.ru/control_files.php", 0)        
 clear_site("https://7111953.ru/control_files.php", 1000)        
+clear_site("https://rzn438043.ru/control_files.php", 0)        
+clear_site("https://rzn438043.ru/control_files.php", 1000)        
 
 #    for files_chunk in np.array_split(np.array(file_list), chunk_size):
 #        r = requests.post("http://studio-tadema.net/control_files.php?action=delete_injected", \

@@ -146,7 +146,7 @@ class FileController{
         $del_sql = "delete from tbl_file_controls where project_id = $p;";
         if (!mysqli_query($this->conn, $del_sql))
             echo ("<div>Error clear files: " . mysqli_error($this->conn)."</div>");
-        $this->traversalFileTree($path, function($this, $path, $level) {ins_one_metr($this, $path, $level, 0);});
+        $this->traversalFileTree($path, function($this, $path, $level) {ins_one_metr($this, $path, $level, 0);}, 10000, 0 , 10000);
         #;
     }
 
